@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    div{
+        width: 100%;
+        font-family: sans-serif, Arial;
+        font-size: 20px;
+        line-height: 30px;
+        padding: 5px 0px;
+        text-align: center;
+    }
+    input[type='text']{
+        width: 40px;
+        height: 20px;
+    }
+    button{
+        height: 20px;
+    }
+    .coursera > label {
+        font-size: 15px;
+        padding-right: 5px;
+    }
+</style>
+<body>
+    <div> Search
+        <button class="iterSearch">iterSearch</button>
+        <button class="transpSearch">transpSearch</button>
+        <button class="firstSwapSearch">firstSwapSearch</button>
+        <button class="clasterSearch">clasterSearch</button>
+        <button class="binarySearch">binarySearch</button>
+        <button class="iterableBinarySearch">iterBinarySearch</button>
+        <input type="text" class="value">
+    </div>
+    <div> Sort
+        <button class="createArr" onclick="createArr()">createArr</button>
+        <button class="sort">Sort</button>
+        <button class="inclusionSort">inclusionSort</button>
+        <button class="selectionSort">selectionSort</button>
+        <button class="bubbleSort">bubbleSort</button>
+        <button class="shakerSort">shakerSort</button>
+        <button class="binaryTreeSort">binaryTreeSort</button>
+        <button class="heapSort">heapSort</button>
+        <button class="quickSort">quickSort</button>
+    </div>
+    <div> Num
+        <button class="recursiveFeb">recursiveFeb</button>
+        <button class="iterFeb">iterFeb</button>
+        <button class="iterFac">iterFac</button>
+        <button class="recFac">recFac</button>
+        <input type="text" class="feb_count">
+    </div>
+    <hr>
+    <div> Union-find
+        <button class="union">union</button>
+        <input type="text" class="p">
+        <input type="text" class="q">
+    </div>
+    <div class="coursera"> Coursera
+        <button class="button_mergeSort">button_mergeSort</button>
+        <button class="button_mergeSortBU">button_mergeSortBU</button>
+        <button class="noC_button_mergeSort">No Coursera button_mergeSort</button>
+        <button class="dijkstraQuickSort">DijkstraQuickSort</button>
+        <button class="RedBlackPut">RedBlackPut</button>
+        <label>Key</label>
+        <input type="text" class="RB_Key">
+        <label>Value</label>
+        <input type="text" class="RB_Value">
+    </div>
+    <script>
+        let array = [];
+        function createArr() {
+            array = [];
+            let length = 10;
+            while(array.length != length) {
+                array.push(randomValue(1,10))
+            }
+            console.log(array)
+        }
+        var randomValue = function(min,max) {
+            return Math.floor(Math.random() * (max-min + 1)) + min;
+        }
+        let length = 1000;
+        while(array.length != length){
+            array.push(randomValue(1,1000))
+        }
+        console.log(array);
+    </script>
+    <script>
+        var count = 0,                      // счетчик
+            st1 = 12,                       // шаг для нечетных
+            st2 = 8,                        // шаг для четных
+            current_val = 3,                // первое число, в него будет записываться каждое новое "хорошее"
+            summ = [3];                     // тут будут храниться все "хорошие" числа
+        while (summ.length !== 2020) {      // Цикл. Пока хороших чисел меньше 2020, считаем их
+            if (count % 2 === 0) {          // Если четное
+                current_val += st1;         // Считаем хорошее число
+                st1+= 8;                    // Прибавляем шаг для четных на 8
+            } else {                        // Если нечетное
+                current_val += st2;         // Считаем хорошее число
+                st2+= 8;                    // Прибавляем шаг для нечетных на 8
+            }
+            summ.push(current_val);         // добавляем в хранилище хороших числе посчитанное число
+            count++;                        // прибавляем счетчик для расчета четных/нечетных чисел
+        }
+        summ = summ.reduce((s,v) => s + v); // считаем итоговую сумму
+        // console.log(summ)
+    </script>
+    <script>
+        const cache = [0, 1];
+        function lastDigit(n) {
+            if (n === 0) return 0;
+            if (n === 1) return 1;
+            if ( cache[n] !== undefined) return cache[n];
+            for (let i = cache.length; i <= n; i++) {
+                cache[i] = (cache[i-1] + cache[i-2]) % 10;
+            }
+            return cache[n];
+        }
+        // console.log(lastDigit(2))
+        // console.log(lastDigit(10))
+    </script>
+    <script>
+        function checkAvailability(schedule, currentTime) {
+            const timing = prepareSchedule(schedule);
+            const _curTime = new Date(`2020-11-07T${currentTime}:00`).getTime();
+            let result = "available";
+
+            timing.forEach(dt =>{
+                console.log(dt.from.getHours(), dt.to.getHours())
+                const timeFrom = dt.from.getTime();
+                const timeTo = dt.to.getTime();
+                if (timeFrom <= _curTime && timeTo > _curTime) {
+                    if (Math.abs(timeFrom - _curTime)  < Math.abs(timeTo - _curTime)) {
+                        result = `${dt.from.getHours()}:${dt.from.getMinutes()}`;
+                    } else {
+                        result = `${dt.to.getHours()}:${dt.to.getMinutes()}`;
+                    }
+                    return;
+                }
+            });
+
+            return result;
+        }
+
+        function createDateInt(interval) {
+            const re1 = /.+?(?=-)/ig;
+            const re2 = /(?<=-).*$/ig;
+            timeFrom = re1.exec(interval);
+            timeTo = re2.exec(interval);
+            return {
+                from: new Date(`2020-11-07T${timeFrom[0]}:00`),
+                to: new Date(`2020-11-07T${timeTo[0]}:00`)
+            }
+        }
+
+        function prepareSchedule(schedule) {
+            const timing = schedule.map(interval => createDateInt(interval)).sort((a,b) => a.from.getTime() - b.from.getTime());
+            const result = [];
+            for (let i = 0; i < timing.length; i++) {
+                if (timing[i + 1] !== undefined) {
+                    if (timing[i].to.getTime() === timing[i + 1].from.getTime()) {
+                        result[i] = {
+                            from: timing[i].from,
+                            to: timing[i+1].to
+                        }
+                        i++;
+                    } else {
+                        result[i] = timing[i];
+                    }
+                } else {
+                    result[i] = timing[i];
+                }
+
+            }
+            return result;
+        }
+
+        console.log(checkAvailability(["07:40-07:50", "07:50-08:00"], "10:00"))
+
+    </script>
+<!--<script src="./js/list.js"></script>-->
+<!--<script src="./js/tree.js"></script>-->
+<!--<script src="./js/search.js"></script>-->
+<script src="./js/sort.js"></script>
+<!--<script src="./js/numbers.js"></script>-->
+<!--<script src="./js/graph.js"></script>-->
+<!--<script src="js/coursera/data_types/UnionFind.js"></script>-->
+<!--    <script src="./js/coursera/data_types/LinkedListStack.js"></script>-->
+<!--    <script src="./js/coursera/data_types/ArrayStack.js"></script>-->
+<!--    <script src="./js/coursera/testDataTypes.js"></script>-->
+<!--<script src="js/coursera/mergeSort.js"></script>-->
+<!--<script src="js/coursera/DijkstraQuickSort.js"></script>-->
+<!--<script src="js/coursera/data_types/RedBlackTree.js"></script>-->
+<script src="js/task.js"></script>
+</body>
+</html>
